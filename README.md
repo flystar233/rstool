@@ -78,7 +78,7 @@ rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign/chrX_bam.list -i F
 
 六：变异整合
 ```bash
-rstool_v1.2 vcf_marge -a freebayes.vcf -b bcftools.vcf
+rstool_v1.6 vcf_marge -a freebayes.vcf -b bcftools.vcf
 ```
 参数解释：	
 -a 由 freebayes 检测的变异文件	
