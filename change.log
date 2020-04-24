@@ -11,7 +11,7 @@ Require python3.x
 --------------------------------------
 Click                              7.0
 pathlib                          2.3.0
-pandas                          0.24.1
+toml                             0.10.0
 --------------------------------------
 changelog:
 	1: modified the file reading method
