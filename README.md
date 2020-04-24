@@ -68,11 +68,11 @@ rstool_v1.6 realign -d 03.Bwa/chrbam -rd genome_cut
 
 五：SNP 变异检测
 ```bash
-rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign/chrX_bam.list -i F
+rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign -i F
 ```
 参数解释：	
 -r 参考基因组分割染色体后路径（一般变异结果要求按染色体分割）	
--l 具体一条染色体所有样本 bam 文件列表	
+-l 所有染色体 bam文件列表所在路径
 -d 单染色体变异检测主目录	
 -i 使用 beagle 进行基因组填补	
 
