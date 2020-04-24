@@ -1,0 +1,61 @@
+__author__ = 'xutengfei'
+__author_email__ = 'xutengfei1@genomics.cn
+Fuc:  1: data preprocessing
+	 2：crate index
+	 3: bwa
+	 4: snp and indel calling by GATK+ freebayes + bcftools
+	 5: concat and merge vcf
+	 6: cnv calling by cnvcaller
+	 7: find_gene
+Require python3.x
+--------------------------------------
+Click                              7.0
+pathlib                          2.3.0
+pandas                          0.24.1
+--------------------------------------
+changelog:
+	1: modified the file reading method
+	2: bug that -i parameter must be positive in snpcall subcommand has been corrected.
+	3: change file wirting way
+	4: prompt for successful modification
+	5: rm sam in correct folder
+	6：modified selectsnp command in GATK
+v1.0
+    1:change the parameter of cutadapt -p 30,30 to -p 20,20
+    2:change the parameter of sickle -p 30, -l 30 to -p 20, -l 50
+	3:change folder name from lower to upper and number
+	4:add re.IGNORECASE
+	5:replace grep "XT:A:U" to -q 30 in bwa
+	6:fix '/' end in refer genome path
+	7:split bwa output work.sh
+	8:Modify variable naming
+v1.1
+	1:The robustness of using relative paths is increased
+v1.2
+	1:add GATK home dict
+	2:create realign bam file list
+v1.3
+	1:Now user can customize the software path
+	2:find_gene in GWAS's SNP
+v1.4
+	1: fix vcf_merge and bam_merge
+	2: beagle add option ne=1000 (effective population size) 
+	3: now can selcet cutting adapter or not
+v1.4.1
+	1: Abandon picard's sortsam module
+v1.4.2
+	1:Using toml for Environment Configuration
+v1.4.3
+	1:use the latest version picard,replaced some command of picard
+v1.5
+	1:could use bwa-mem2
+	2:optimize snpcall process
+v1.5.1
+	1:sort 04.Realign work.sh
+	2:use sambamba to sort bam
+v1.6
+	1:delete bam_merge
+	2:add bam_stat
+	3:add indel detection
+	4:add cnv detection
+To prevent file accidents, please use the absolute path of files.
