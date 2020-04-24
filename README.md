@@ -32,7 +32,8 @@ rstool 是使用 python 编写的重测序流程软件,当前版本为 v1.6。�
 ./rstool_v1.6 data_filter -l raw_data.list -a CACTCGACTAGCATCA
 ```
 参数解释：	
--l 下机数据文件表，raw_data.list 格式如下：
+
+-l 下机数据文件表 raw_data.list 格式如下：
 ```
 testa	/zfssz3/NASCT_BACKUP/MS_PMO2017/testa_1.fq.gz	/zfssz3/NASCT_BACKUP/MS_PMO2017/testa_2.fq.gz
 testb	/zfssz3/NASCT_BACKUP/MS_PMO2017/testb_1.fq.gz	/zfssz3/NASCT_BACKUP/MS_PMO2017/testb_2.fq.gz
@@ -46,6 +47,7 @@ testc	/zfssz3/NASCT_BACKUP/MS_PMO2017/testc_1.fq.gz	/zfssz3/NASCT_BACKUP/MS_PMO2
 rstool_v1.6 index -r genome.fa
 ```
 参数解释：	
+
 -r 参考基因组文件	
 
 三：bwa 比对
@@ -53,7 +55,9 @@ rstool_v1.6 index -r genome.fa
 rstool_v1.6 bwa -r 02.Index/genome.fa -l 01.Data_filter/clean_list.txt
 ```
 参数解释：	
+
 -r 在建立参考基因组索引时会默认建立源参考基因组的软链，在比对时需要已经建立好的文件，所以 -r 请使用软链文件。	
+
 -l 数据过滤中默认生成clean data 的文件列表，请使用过滤数据的文件列表。	
 
 如果想加快比对速度,建议使用bwa-mem2.可在软件列表（input.toml）进行替换路径。
@@ -63,7 +67,9 @@ rstool_v1.6 bwa -r 02.Index/genome.fa -l 01.Data_filter/clean_list.txt
 rstool_v1.6 realign -d 03.Bwa/chrbam -rd genome_cut
 ```
 参数解释：	
+
 -d bwa 比对后，分割染色体比对文件的路径	
+
 -rd 参考基因组分割染色体路径	
 
 五：SNP 变异检测
@@ -71,9 +77,13 @@ rstool_v1.6 realign -d 03.Bwa/chrbam -rd genome_cut
 rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign -i F
 ```
 参数解释：	
+
 -r 参考基因组分割染色体后路径（一般变异结果要求按染色体分割）	
+
 -l 所有染色体 bam文件列表所在路径
+
 -d 单染色体变异检测主目录	
+
 -i 使用 beagle 进行基因组填补	
 
 六：变异整合
@@ -81,7 +91,9 @@ rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign -i F
 rstool_v1.6 vcf_marge -a freebayes.vcf -b bcftools.vcf
 ```
 参数解释：	
+
 -a 由 freebayes 检测的变异文件	
+
 -b 由 bcftools 检测的变异文件
 
 七：CNV 变异检测
@@ -89,7 +101,9 @@ rstool_v1.6 vcf_marge -a freebayes.vcf -b bcftools.vcf
 rstool_v1.6 snpcall -r 02.Index/genome.fa  -l 04.Realign/dup.bam.list
 ```
 参数解释：	
+
 -r 参考基因组文件
+
 -l 经过去 PCR 重复的 bam 文件列表。（cnvcaller 不推荐对 bam 文件进行过滤）
 
 ## NOTE：
