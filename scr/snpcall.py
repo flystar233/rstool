@@ -10,7 +10,7 @@ from pathlib import Path
     "-r", "--reference", type=click.Path(exists=True), help="the folder of reference genome"
     )
 @click.option(
-    "-l", "--listfile", type=click.Path(exists=True), help="Bam folder list"
+    "-l", "--listfile", type=click.Path(exists=True), help="all bam list folder"
     )
 @click.option(
     "-i","--imputation", default="false",type=click.Choice(['false','f','F','true','t','T'])
