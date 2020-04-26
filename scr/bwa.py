@@ -3,6 +3,26 @@
 import os
 import click
 from pathlib import Path
+import toml
+
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	bwa_path = Configuration['configuration']['bwa_path']
+	samtools_path = Configuration['configuration']['samtools_path']
+	iTools_path = Configuration['configuration']['iTools_path']
+	sambamba_path = Configuration['configuration']['sambamba_path']
+	qualimap_path = Configuration['configuration']['qualimap_path']
+	java8_path = Configuration['configuration']['java8_path']
+	jar_picard = Configuration['configuration']['jar_picard']
+
+else:
+	bwa_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/bwa-0.7.17/bwa'
+	samtools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/samtools'
+	iTools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/iTools_Code/iTools'
+	qualimap_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/qualimap_v2.2.1/qualimap'
+	java8_path ='/ifs4/BC_PUB/biosoft/pipeline/newblc/03.Soft_ALL/jdk1.8.0_131/bin/java'
+	sambamba_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/sambamba-0.6.9-linux-static'
+	jar_picard = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/picard.jar'
 
 @click.command("bwa", help="The sequence will be aligned to reference genome by bwa")
 @click.option(
