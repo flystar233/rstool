@@ -4,6 +4,29 @@ import os
 import click
 import re
 from pathlib import Path
+import toml
+
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	java7_path = Configuration['configuration']['java7_path']
+	vcffilter_path = Configuration['configuration']['vcffilter_path']
+	vcftools_path = Configuration['configuration']['vcftools_path']
+	freebayes_path = Configuration['configuration']['freebayes_path']
+	bcftools_path = Configuration['configuration']['bcftools_path']
+	beagle_path = Configuration['configuration']['beagle_path']
+	jar_gatk = Configuration['configuration']['jar_gatk']
+	iTools_path = Configuration['configuration']['iTools_path']
+
+
+else:
+	java7_path = '/ifs4/BC_PUB/biosoft/pipeline/Package/jre1.7.0_55/bin/java'
+	vcffilter_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/freebayes/vcflib/bin/vcffilter'
+	vcftools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/vcftools_0.1.13/bin/vcftools'
+	freebayes_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/freebayes/bin/freebayes'
+	bcftools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/bcftools'
+	beagle_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/beagle.28Sep18.793.jar'
+	jar_gatk = '/ifs4/BC_PUB/biosoft/pipeline/Package/GATK-3.3.0/GenomeAnalysisTK.jar'
+	iTools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/iTools_Code/iTools'
 
 @click.command("snpcall", help="GATK + freebayes + bcftools snp calling piplines")
 @click.option(
