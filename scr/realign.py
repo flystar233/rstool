@@ -4,7 +4,23 @@
 import os
 import click
 from pathlib import Path
+import toml
 
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	samtools_path = Configuration['configuration']['samtools_path']
+	sambamba_path = Configuration['configuration']['sambamba_path']
+	java7_path = Configuration['configuration']['java7_path']
+	java8_path = Configuration['configuration']['java8_path']
+	jar_gatk = Configuration['configuration']['jar_gatk']
+	jar_picard = Configuration['configuration']['jar_picard']
+else:
+	samtools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/samtools'
+	java7_path = '/ifs4/BC_PUB/biosoft/pipeline/Package/jre1.7.0_55/bin/java'
+	java8_path ='/ifs4/BC_PUB/biosoft/pipeline/newblc/03.Soft_ALL/jdk1.8.0_131/bin/java'
+	sambamba_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/sambamba-0.6.9-linux-static'
+	jar_gatk = '/ifs4/BC_PUB/biosoft/pipeline/Package/GATK-3.3.0/GenomeAnalysisTK.jar'
+	jar_picard = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/picard.jar'
 @click.command("realign", help="revision of bam file")
 @click.option(
     "-d", "--chrbam_dic", type=click.Path(exists=True), help="the dictionary of chrbam"
