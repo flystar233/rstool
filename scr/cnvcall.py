@@ -3,6 +3,23 @@
 import os
 import click
 from pathlib import Path
+import toml
+
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	cnvcaller_path = Configuration['configuration']['cnvcaller_path']
+	blasr_path = Configuration['configuration']['blasr_path']
+	sawriter_path = Configuration['configuration']['sawriter_path']
+	java8_path = Configuration['configuration']['java8_path']
+	jar_picard = Configuration['configuration']['jar_picard']
+	samtools_path = Configuration['configuration']['samtools_path']
+else:
+	cnvcaller_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/cnvcaller'
+	blasr_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/blasr'
+	sawriter_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/sawriter'
+	java8_path ='/ifs4/BC_PUB/biosoft/pipeline/newblc/03.Soft_ALL/jdk1.8.0_131/bin/java'
+	jar_picard = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/picard.jar'
+	samtools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/samtools'
 
 @click.command("cnvcall", help="cnv calling piplines")
 @click.option(
