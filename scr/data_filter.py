@@ -3,6 +3,15 @@
 import os
 import click
 from pathlib import Path
+import toml
+
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	cut_adapter_path = Configuration['configuration']['cut_adapter_path']
+	sickle_path = Configuration['configuration']['sickle_path']
+else:
+	cut_adapter_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/cutadapt'
+	sickle_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/sickle-1.33/sickle'
 
 @click.command("data_filter", help="raw data filter by cutadapt and sickle")
 @click.option(
