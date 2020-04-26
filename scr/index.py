@@ -3,6 +3,17 @@
 import os
 import click
 from pathlib import Path
+import toml
+
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	bwa_path = Configuration['configuration']['bwa_path']
+	samtools_path = Configuration['configuration']['samtools_path']
+	iTools_path = Configuration['configuration']['iTools_path']
+else:
+	bwa_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/bwa-0.7.17/bwa'
+	samtools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/samtools'
+	iTools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/iTools_Code/iTools'
 
 @click.command("index", help="create the index  of reference genome")
 @click.option(
