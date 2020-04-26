@@ -3,6 +3,15 @@
 import os
 import click
 from pathlib import Path
+import toml
+
+if os.path.exists('./input.toml'):
+	Configuration = toml.load("./input.toml")
+	bcftools_path = Configuration['configuration']['bcftools_path']
+	plink_path = Configuration['configuration']['plink_path']
+else:
+	bcftools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/bcftools'
+	plink_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/KIT/plink'
 
 @click.command("vcf_merge", help="Take the intersection of vcf files")
 @click.option(
