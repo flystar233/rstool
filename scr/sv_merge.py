@@ -19,33 +19,33 @@ def pos_filter(sv_data):
 	sv2= []
 	for i in sorted(sv_i12_uniq_index):
 		sv2.append(sv_data[i])
-	#########################获得start位置pos之间距离小于1000bp点的索引
+	#########################获得start位置pos之间距离小于1000(2000)bp点的索引
 	sv2_1 = []
 	sv2_2 = []
 	for i in sv2:
 		sv2_1.append(int(i[1]))
 	for i in sv2:
 		sv2_2.append(i[0])
-	pos_500 = []
+	pos_1000 = []
 	for i in range(len(sv2_1)):
 		if i >=len(sv2_1)-1:
 			break
 		else:
 			cha = sv2_1[i+1]-sv2_1[i]
 			if sv2_1[i] < 10000000 and cha>=-1000 and cha < 1000:
-				pos_500.append(sv2_2[i]+" "+str(sv2_1[i]))
-				pos_500.append(sv2_2[i+1]+" "+str(sv2_1[i+1]))
+				pos_1000.append(sv2_2[i]+" "+str(sv2_1[i]))
+				pos_1000.append(sv2_2[i+1]+" "+str(sv2_1[i+1]))
 			elif sv2_1[i] > 10000000 and cha>=-2000 and cha < 2000:
-				pos_500.append(sv2_2[i]+" "+str(sv2_1[i]))
-				pos_500.append(sv2_2[i+1]+" "+str(sv2_1[i+1]))
+				pos_1000.append(sv2_2[i]+" "+str(sv2_1[i]))
+				pos_1000.append(sv2_2[i+1]+" "+str(sv2_1[i+1]))
 			else:
 				pass
-	pos_500 =sorted(set(pos_500))
-	##########################对小于500bp点过滤
+	pos_1000 =sorted(set(pos_1000))
+	##########################对小于1000(2000)bp点过滤
 	count =0
 	final_sv =[]
 	for i in sv2:
-		if i[0]+" "+str(i[1]) in pos_500:
+		if i[0]+" "+str(i[1]) in pos_1000:
 			pass
 		else:
 			final_sv.append(i)
