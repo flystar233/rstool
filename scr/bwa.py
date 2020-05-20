@@ -3,17 +3,18 @@
 import os
 import click
 from pathlib import Path
-import toml
+from configparser import ConfigParser
 
-if os.path.exists('./input.toml'):
-	Configuration = toml.load("./input.toml")
-	bwa_path = Configuration['configuration']['bwa_path']
-	samtools_path = Configuration['configuration']['samtools_path']
-	iTools_path = Configuration['configuration']['iTools_path']
-	sambamba_path = Configuration['configuration']['sambamba_path']
-	qualimap_path = Configuration['configuration']['qualimap_path']
-	java8_path = Configuration['configuration']['java8_path']
-	jar_picard = Configuration['configuration']['jar_picard']
+if os.path.exists('config.ini'):
+	cfg = ConfigParser()
+	cfg.read('config.ini')
+	bwa_path = cfg.get('configuration','bwa_path')
+	samtools_path = cfg.get('configuration','samtools_path')
+	iTools_path = cfg.get('configuration','iTools_path')
+	sambamba_path = cfg.get('configuration','sambamba_path')
+	qualimap_path = cfg.get('configuration','qualimap_path')
+	java8_path = cfg.get('configuration','java8_path')
+	jar_picard = cfg.get('configuration','jar_picard')
 
 else:
 	bwa_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/bwa-0.7.17/bwa'

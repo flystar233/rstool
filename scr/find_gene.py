@@ -22,7 +22,7 @@ def find_gene(gff,position,width,out):
 	"""
 	try:
 		print("--------------------------------------------\nLooking for genes...\nThe gene and iterative position will be saved in {}".format(out))
-		mydcit = collections.defaultdict(list)
+		mydict = collections.defaultdict(list)
 		posnow =[]
 		iloc3 =[]
 		iloc4 =[]
@@ -46,11 +46,11 @@ def find_gene(gff,position,width,out):
 				for i in range(0,width+1,1000):
 					snpnow = snpdown +i
 					if z[0] <= snpnow < z[1]:
-						mydcit[z[2]].append(snpnow)
+						mydict[z[2]].append(snpnow)
 		outfile.write("gene\tposition\n")
-		for key in mydcit.keys():
-			outfile.write("{}\t{}\n".format(key,mydcit[key]))
-		number = len(mydcit.keys())
+		for key in mydict.keys():
+			outfile.write("{}\t{}\n".format(key,mydict[key]))
+		number = len(mydict.keys())
 		print("There are {} gene in {}".format(number,out))
 	except FileNotFoundError:
 		print("The file you inputed was not found")

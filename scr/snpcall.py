@@ -4,18 +4,19 @@ import os
 import click
 import re
 from pathlib import Path
-import toml
+from configparser import ConfigParser
 
-if os.path.exists('./input.toml'):
-	Configuration = toml.load("./input.toml")
-	java7_path = Configuration['configuration']['java7_path']
-	vcffilter_path = Configuration['configuration']['vcffilter_path']
-	vcftools_path = Configuration['configuration']['vcftools_path']
-	freebayes_path = Configuration['configuration']['freebayes_path']
-	bcftools_path = Configuration['configuration']['bcftools_path']
-	beagle_path = Configuration['configuration']['beagle_path']
-	jar_gatk = Configuration['configuration']['jar_gatk']
-	iTools_path = Configuration['configuration']['iTools_path']
+if os.path.exists('config.ini'):
+	cfg = ConfigParser()
+	cfg.read('config.ini')
+	java7_path = cfg.get('configuration','java7_path')
+	vcffilter_path = cfg.get('configuration','vcffilter_path')
+	vcftools_path = cfg.get('configuration','vcftools_path')
+	freebayes_path = cfg.get('configuration','freebayes_path')
+	bcftools_path = cfg.get('configuration','bcftools_path')
+	beagle_path = cfg.get('configuration','beagle_path')
+	jar_gatk = cfg.get('configuration','jar_gatk')
+	iTools_path = cfg.get('configuration','iTools_path')
 
 
 else:

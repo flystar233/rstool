@@ -4,16 +4,17 @@
 import os
 import click
 from pathlib import Path
-import toml
+from configparser import ConfigParser
 
-if os.path.exists('./input.toml'):
-	Configuration = toml.load("./input.toml")
-	samtools_path = Configuration['configuration']['samtools_path']
-	sambamba_path = Configuration['configuration']['sambamba_path']
-	java7_path = Configuration['configuration']['java7_path']
-	java8_path = Configuration['configuration']['java8_path']
-	jar_gatk = Configuration['configuration']['jar_gatk']
-	jar_picard = Configuration['configuration']['jar_picard']
+if os.path.exists('config.ini'):
+	cfg = ConfigParser()
+	cfg.read('config.ini')
+	samtools_path = cfg.get('configuration','samtools_path')
+	sambamba_path = cfg.get('configuration','sambamba_path')
+	java7_path = cfg.get('configuration','java7_path')
+	java8_path = cfg.get('configuration','java8_path')
+	jar_gatk = cfg.get('configuration','jar_gatk')
+	jar_picard = cfg.get('configuration','jar_picard')
 else:
 	samtools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/samtools'
 	java7_path = '/ifs4/BC_PUB/biosoft/pipeline/Package/jre1.7.0_55/bin/java'

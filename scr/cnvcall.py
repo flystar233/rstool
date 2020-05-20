@@ -3,16 +3,17 @@
 import os
 import click
 from pathlib import Path
-import toml
+from configparser import ConfigParser
 
-if os.path.exists('./input.toml'):
-	Configuration = toml.load("./input.toml")
-	cnvcaller_path = Configuration['configuration']['cnvcaller_path']
-	blasr_path = Configuration['configuration']['blasr_path']
-	sawriter_path = Configuration['configuration']['sawriter_path']
-	java8_path = Configuration['configuration']['java8_path']
-	jar_picard = Configuration['configuration']['jar_picard']
-	samtools_path = Configuration['configuration']['samtools_path']
+if os.path.exists('config.ini'):
+	cfg = ConfigParser()
+	cfg.read('config.ini')
+	cnvcaller_path = cfg.get('configuration','cnvcaller_path')
+	blasr_path = cfg.get('configuration','blasr_path')
+	sawriter_path = cfg.get('configuration','sawriter_path')
+	java8_path = cfg.get('configuration','java8_path')
+	jar_picard = cfg.get('configuration','jar_picard')
+	samtools_path = cfg.get('configuration','samtools_path')
 else:
 	cnvcaller_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/cnvcaller'
 	blasr_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/blasr'

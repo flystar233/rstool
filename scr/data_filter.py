@@ -3,12 +3,13 @@
 import os
 import click
 from pathlib import Path
-import toml
+from configparser import ConfigParser
 
-if os.path.exists('./input.toml'):
-	Configuration = toml.load("./input.toml")
-	cut_adapter_path = Configuration['configuration']['cut_adapter_path']
-	sickle_path = Configuration['configuration']['sickle_path']
+if os.path.exists('config.ini'):
+	cfg = ConfigParser()
+	cfg.read('config.ini')
+	cut_adapter_path = cfg.get('configuration','cut_adapter_path')
+	sickle_path = cfg.get('configuration','sickle_path')
 else:
 	cut_adapter_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/cutadapt'
 	sickle_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/sickle-1.33/sickle'

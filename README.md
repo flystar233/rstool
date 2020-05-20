@@ -6,8 +6,11 @@ rstool 是使用 python 编写的重测序流程软件,当前版本为 v1.6。�
 3. bwa	（bwa比对）
 4. realign	（比对过滤，GATK 局部重新比对）
 5. snpcall	(GATK + freebayes + bcftools 变异检测)
-8. cnvcall (cnvcaller 变异检测)
-7. vcf_marge	（3种变异检测结果整合）
+6. cnvcall (cnvcaller 变异检测)
+7. svcall （breakdancer + lumpy + manta 变异检测）
+8. vcf_marge（3种snp变异检测结果整合）
+9. sv_merge （3种sv变异检测结果整合）
+10. vcf_stat （对变异文件进行基本的统计）
 
 ## 功能内容
 1. 使用 cutadapt 和 sickle 进行接头处理和数据质控	
@@ -17,6 +20,7 @@ rstool 是使用 python 编写的重测序流程软件,当前版本为 v1.6。�
 3. vcf 文件的聚合
 使用 bcftools 取位点交集。
 4. **cnvcaller** 是研究群体 cnv 较为方便的软件。使用去 PCR 重复的 bam 文件进行 cnv 检测。
+5. 由于结构变异检测软件众多，且不同软件对结构变异检测的灵敏度不同，所以我们选择 breakdancer + lumpy + manta 这样的检查组合，当各个软件独立运行完成后，根据3个软件的结构变异起始位置的 overlap 进行sv的合并。变异检测我们只挑选 del(删除)、dup（重复）、inv（倒位），breakdancer只能给出 del 和 inv，manta 只能给出 del 和 dup。
 
 ## 特点
 1. 详细的命令说明
@@ -29,7 +33,7 @@ rstool 是使用 python 编写的重测序流程软件,当前版本为 v1.6。�
 ## 使用方法
 一：数据过滤
 ```bash
-./rstool_v1.6 data_filter -l raw_data.list -a CACTCGACTAGCATCA
+./rstool_v1.6.4  data_filter -l raw_data.list -a CACTCGACTAGCATCA
 ```
 参数解释：	
 
@@ -44,7 +48,7 @@ testc	/zfssz3/NASCT_BACKUP/MS_PMO2017/testc_1.fq.gz	/zfssz3/NASCT_BACKUP/MS_PMO2
 
 二：建立参考基因组索引	
 ```bash
-rstool_v1.6 index -r genome.fa
+rstool_v1.6.4 index -r genome.fa
 ```
 参数解释：	
 
@@ -52,7 +56,7 @@ rstool_v1.6 index -r genome.fa
 
 三：bwa 比对
 ```bash
-rstool_v1.6 bwa -r 02.Index/genome.fa -l 01.Data_filter/clean_list.txt
+rstool_v1.6.4 bwa -r 02.Index/genome.fa -l 01.Data_filter/clean_list.txt
 ```
 参数解释：	
 
@@ -60,11 +64,11 @@ rstool_v1.6 bwa -r 02.Index/genome.fa -l 01.Data_filter/clean_list.txt
 
 -l 数据过滤中默认生成clean data 的文件列表，请使用过滤数据的文件列表。	
 
-如果想加快比对速度,建议使用bwa-mem2.可在软件列表（input.toml）进行替换路径。
+如果想加快比对速度,建议使用bwa-mem2.可在软件列表（contig.ini）进行替换路径。
 
 四：局部重新比对
 ```bash
-rstool_v1.6 realign -d 03.Bwa/chrbam -rd genome_cut
+rstool_v1.6.4 realign -d 03.Bwa/chrbam -rd 02.Index/genome_cut/
 ```
 参数解释：	
 
@@ -74,7 +78,7 @@ rstool_v1.6 realign -d 03.Bwa/chrbam -rd genome_cut
 
 五：SNP 变异检测
 ```bash
-rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign -i F
+rstool_v1.6.4 snpcall -r 02.Index/genome_cut -l 04.Realign -i F
 ```
 参数解释：	
 
@@ -82,13 +86,11 @@ rstool_v1.6 snpcall -r 02.Index/genome_cut -l 04.Realign -i F
 
 -l 所有染色体 bam文件列表所在路径
 
--d 单染色体变异检测主目录	
+-i 使用 beagle 进行基因组填补（F不填补，T填补）
 
--i 使用 beagle 进行基因组填补	
-
-六：变异整合
+六：SNP 整合
 ```bash
-rstool_v1.6 vcf_marge -a freebayes.vcf -b bcftools.vcf
+rstool_v1.6.4 vcf_marge -a freebayes.vcf -b bcftools.vcf
 ```
 参数解释：	
 
@@ -98,17 +100,34 @@ rstool_v1.6 vcf_marge -a freebayes.vcf -b bcftools.vcf
 
 七：CNV 变异检测
 ```bash
-rstool_v1.6 snpcall -r 02.Index/genome.fa  -l 04.Realign/dup.bam.list
+rstool_v1.6.4 cnvcall -r 02.Index/genome.fa  -l 03.Bwa/dup.bam.list
 ```
 参数解释：	
 
 -r 参考基因组文件
 
--l 经过去 PCR 重复的 bam 文件列表。（cnvcaller 不推荐对 bam 文件进行过滤）
+-l 经过去 PCR 重复的 bam 文件列表。（需要自己对第三步bwa文件夹中去PCR重复的文件做一个list，cnvcaller 不推荐对 bam 文件进行过滤）
+
+八：SV 变异检测
+```bash
+rstool_v1.6.4 svcall -r 02.Index/genome.fa  -l 03.Bwa/dup.bam.list
+```
+参数解释：	
+
+-r 参考基因组文件
+
+-l 经过去 PCR 重复的 bam 文件列表。（需要自己对第三步bwa文件夹中去PCR重复的文件做一个list.）
+
+九：SV 整合
+```bash
+rstool_v1.6.4 sv_merge -b breakdancer.ctx -m manta.vcf  -s smoove.vcf  -c 0.8
+```
+参数解释：	
+-c 在 sv 整合中 3 种方法 sv 片段的 overlap 占每一种方法结果的百分比。0.8为默认值。
 
 ## NOTE：
 1. 流程使用中，各个文件、目录尽量使用绝对路径。
 2. 现在 GATK 变异检测可以在一个自动处理染色体问题，只需输入参考基因组按染色体分割文件路径即可。
 3. 在变异整合时，同时只能处理 2 个文件，如果还想整合 GATK 的结果，按脚本替换成 GATK 文件即可。
 4. 变异过滤条件较为严格，建议样本数大于 100 使用此流程。
-5. 流程软件使用集群稳定版本，如需替换可在源码 software path 下替换。
+5. 流程软件使用集群稳定版本，如需替换可在 配置文件（config.ini）下替换。

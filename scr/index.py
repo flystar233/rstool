@@ -3,13 +3,14 @@
 import os
 import click
 from pathlib import Path
-import toml
+from configparser import ConfigParser
 
-if os.path.exists('./input.toml'):
-	Configuration = toml.load("./input.toml")
-	bwa_path = Configuration['configuration']['bwa_path']
-	samtools_path = Configuration['configuration']['samtools_path']
-	iTools_path = Configuration['configuration']['iTools_path']
+if os.path.exists('config.ini'):
+	cfg = ConfigParser()
+	cfg.read('config.ini')
+	bwa_path = cfg.get('configuration','bwa_path')
+	samtools_path = cfg.get('configuration','samtools_path')
+	iTools_path = cfg.get('configuration','iTools_path')
 else:
 	bwa_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/bwa-0.7.17/bwa'
 	samtools_path = '/zfssz3/NASCT_BACKUP/MS_PMO2017/xutengfei1/software/miniconda3/bin/samtools'
