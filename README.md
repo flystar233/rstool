@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/258391040.svg)](https://zenodo.org/badge/latestdoi/258391040)
 # rstool使用说明
 ## 功能介绍
 rstool 是使用 python 编写的重测序流程软件,当前版本为 v1.6。主要功能如下：	
